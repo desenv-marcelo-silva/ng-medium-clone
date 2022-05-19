@@ -26,10 +26,10 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.required],
       email: ['', Validators.email],
     });
-    this.store.dispatch(registerAction(this.form.value));
   }
 
   onSubmit(): void {
     console.log('submit', this.form.value, 'valid: ', this.form.valid);
+    this.store.dispatch(registerAction(this.form.value));
   }
 }
