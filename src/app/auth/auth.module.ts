@@ -11,6 +11,7 @@ import { reducers } from 'src/app/auth/store/reducers';
 import { RegisterComponent } from 'src/app/auth/components/register/register.component';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { RegisterEffect } from 'src/app/auth/store/effects/register.effect';
+import { BackendErrorsModule } from '../shared/types/modules/backendErrorMessages/backendErrors.module';
 
 const routes: Routes = [
   {
@@ -21,12 +22,13 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
     ReactiveFormsModule,
+    BackendErrorsModule,
+    RouterModule.forChild(routes),
     StoreModule.forFeature('auth', reducers),
-    EffectsModule.forFeature([RegisterEffect])
+    EffectsModule.forFeature([RegisterEffect]),
   ],
   declarations: [RegisterComponent],
-  providers: [AuthService]
+  providers: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}
