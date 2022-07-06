@@ -10,10 +10,15 @@ import { of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PersistanceService } from 'src/app/shared/services/persistance.service';
 
 @Injectable()
 export class RegisterEffect {
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  constructor(
+    private actions$: Actions,
+    private readonly authService: AuthService,
+    private readonly persistanceService: PersistanceService
+  ) {}
 
   register$ = createEffect(() =>
     this.actions$.pipe(
@@ -21,6 +26,7 @@ export class RegisterEffect {
       switchMap(({ request }) => {
         return this.authService.register(request).pipe(
           map((currentUser: CurrentUserInterface) => {
+            this.persistanceService.set('currentUserToken', currentUser.token);
             return registerSuccessAction({ currentUser });
           }),
 
