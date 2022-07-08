@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import {
-  registerAction,
-  registerFailureAction,
-  registerSuccessAction,
-} from 'src/app/auth/store/actions/register.action';
+  loginAction,
+  loginFailureAction,
+  loginSuccessAction,
+} from 'src/app/auth/store/actions/login.action';
+
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 import { PersistanceService } from 'src/app/shared/services/persistance.service';
 
 @Injectable()
-export class RegisterEffect {
+export class LoginEffect {
   constructor(
     private actions$: Actions,
     private readonly authService: AuthService,
@@ -24,19 +25,19 @@ export class RegisterEffect {
     private readonly router: Router
   ) {}
 
-  register$ = createEffect(() =>
+  login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(registerAction),
+      ofType(loginAction),
       switchMap(({ request }) => {
-        return this.authService.register(request).pipe(
+        return this.authService.login(request).pipe(
           map((currentUser: CurrentUserInterface) => {
             this.persistanceService.set('currentUserToken', currentUser.token);
-            return registerSuccessAction({ currentUser });
+            return loginSuccessAction({ currentUser });
           }),
 
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
-              registerFailureAction({ errors: errorResponse.error.errors })
+              loginFailureAction({ errors: errorResponse.error.errors })
             );
           })
         );
@@ -47,7 +48,7 @@ export class RegisterEffect {
   redirectAfterSubmit$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(registerSuccessAction),
+        ofType(loginSuccessAction),
         tap(() => this.router.navigateByUrl('/'))
       ),
     { dispatch: false }
