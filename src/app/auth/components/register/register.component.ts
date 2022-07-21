@@ -10,7 +10,7 @@ import {
   validationErrorsSelector,
 } from 'src/app/auth/store/selectors';
 import { RegisterRequestInterface } from 'src/app/auth/types/registerRequest.interface';
-import { BackendErrorsInterface } from '../../types/errors.interface';
+import { BackendErrorsInterface } from 'src/app/auth/types/errors.interface';
 
 @Component({
   selector: 'mc-register',

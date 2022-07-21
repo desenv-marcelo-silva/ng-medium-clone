@@ -12,8 +12,8 @@ import { RegisterComponent } from 'src/app/auth/components/register/register.com
 import { LoginComponent } from 'src/app/auth/components/login/login.component';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { RegisterEffect } from 'src/app/auth/store/effects/register.effect';
-import { BackendErrorsModule } from '../shared/types/modules/backendErrorMessages/backendErrors.module';
-import { PersistanceService } from '../shared/services/persistance.service';
+import { BackendErrorsModule } from 'src/app/shared/modules/backendErrorMessages/backendErrors.module';
+import { PersistanceService } from 'src/app/shared/services/persistance.service';
 import { LoginEffect } from './store/effects/login.effect';
 
 const routes: Routes = [
